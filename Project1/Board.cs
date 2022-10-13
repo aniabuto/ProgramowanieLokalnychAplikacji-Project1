@@ -109,4 +109,22 @@ public class Board
         return NullPawn;
     }
 
+    public static bool IsEnd()
+    {
+        foreach (var pawn in pawns)
+        {
+            if (pawn.AvailableMoves().Count != 0)
+                return false;
+            
+        }
+        return true;
+    }
+
+    public static bool IsWin()
+    {
+        if (pawns.Count == 1)
+            return true;
+        return false;
+    }
+
 }

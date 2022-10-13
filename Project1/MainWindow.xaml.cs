@@ -23,6 +23,7 @@ namespace Project1
         // private ClassicBoard board;
         private int size;
         private Board board;
+        public static EndGameWindow EndGameWindow;
         
         // SolidColorBrush brushTaken = new SolidColorBrush();
         // SolidColorBrush brushFree = new SolidColorBrush();
@@ -33,7 +34,9 @@ namespace Project1
             InitializeComponent();
             // CreateBoard();
             BeginGame();
-            
+            EndGameWindow = new EndGameWindow(this);
+            EndGameWindow.Hide();
+
         }
 
         private void BeginGame()
@@ -68,6 +71,14 @@ namespace Project1
             }
         }
 
+        public void RestartGame()
+        {
+            fieldPlane.Children.Clear();
+            fieldPlane.ColumnDefinitions.Clear();
+            fieldPlane.RowDefinitions.Clear();
+            BeginGame();
+        }
+        
         private void ButtonOnClick(object sender, RoutedEventArgs e)
         {
             Place field = (Place) sender;

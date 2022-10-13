@@ -37,6 +37,19 @@ public class Pawn
         Board.RemovePawn(GetMiddlePawn(field));
         this.field = field;
         this.field.SetTaken();
+        if (Board.IsEnd())
+        {
+            if (Board.IsWin())
+            {
+                MainWindow.EndGameWindow.EndGameText.Text = "CONGRATULATIONS! You Won!";
+                MainWindow.EndGameWindow.Show();
+            }
+            else
+            {
+                MainWindow.EndGameWindow.EndGameText.Text = "GAME OVER...";
+                MainWindow.EndGameWindow.Show();
+            }
+        }
     }
 
     private bool IsAvailable(Place field)
