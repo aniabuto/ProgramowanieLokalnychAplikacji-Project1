@@ -19,8 +19,8 @@ public partial class EndGameWindow : Window
     
     private void NewGameButton_OnClick(object sender, RoutedEventArgs e)
     {
-        this.Hide();
         mainWindow.RestartGame();
+        this.Close();
     }
 
     private void EndGameButton_OnClick(object sender, RoutedEventArgs e)

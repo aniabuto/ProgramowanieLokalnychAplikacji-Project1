@@ -14,7 +14,7 @@ public class Place : Button
     {
         this.coordinates = coordinates;
         brush = new SolidColorBrush();
-        Background = brush;
+        //Background = brush;
         SetTaken();
     }
 
@@ -29,6 +29,7 @@ public class Place : Button
     {
         color = Colors.Beige;
         SetBackground();
+        Tag = "Empty";
         state = FieldState.FREE;
     }
 
@@ -36,6 +37,7 @@ public class Place : Button
     {
         color = Colors.Black;
         SetBackground();
+        Tag = "Taken";
         state = FieldState.TAKEN;
     }
 
@@ -43,6 +45,7 @@ public class Place : Button
     {
         color = Colors.Aqua;
         SetBackground();
+        Tag = "Selected";
         state = FieldState.SELECTED;
     }
 
@@ -50,6 +53,7 @@ public class Place : Button
     {
         color = Colors.LightGreen;
         SetBackground();
+        Tag = "Available";
         state = FieldState.AVAILABLE;
     }
 
@@ -58,6 +62,7 @@ public class Place : Button
         color = Colors.White;
         SetBackground();
         state = FieldState.NOT_A_FIELD;
+        IsEnabled = false;
     }
     
     public bool IsTaken()

@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="Project1.OptionButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Project1"
+             mc:Ignorable="d"
+             d:DesignHeight="470" d:DesignWidth="620">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="CadetBlue"></Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="ClassicBoardButtonClicked" CanExecute="ButtonCanBeClicked" />
+        <CommandBinding Command="ApplicationCommands.Save" Executed="EuropeanBoardButtonClicked" CanExecute="ButtonCanBeClicked" />
+    </UserControl.CommandBindings>
+    
+    <Grid Background="DimGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="450"></RowDefinition>
+            <RowDefinition Height="15"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="280"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="280"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="280"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="1" Grid.Column="1" Command="ApplicationCommands.New">
+                <ContentControl>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Classic board -->
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Transparent" Stroke="Black" Grid.Row="3" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                    </Grid>
+                </ContentControl>
+            </Button>
+            <Button Grid.Row="1" Grid.Column="3" Command="ApplicationCommands.Save">
+                <ContentControl>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                        
+                        <!-- European board -->
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="0" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="1" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="2" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Transparent" Stroke="Black" Grid.Row="3" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="3" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="0" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="4" Grid.Column="6" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="1" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="5" Grid.Column="5" Width="30" Height="30"></Ellipse>
+                        
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="2" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="3" Width="30" Height="30"></Ellipse>
+                        <Ellipse Fill="Black" Stroke="Black" Grid.Row="6" Grid.Column="4" Width="30" Height="30"></Ellipse>
+                    </Grid>
+                </ContentControl>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

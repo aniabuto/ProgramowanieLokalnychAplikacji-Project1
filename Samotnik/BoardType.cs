@@ -2,6 +2,7 @@
 
 public enum BoardType
 {
-    ENGLISH,
-    EUROPEAN
+    CLASSIC,
+    EUROPEAN,
+    NONE
 }

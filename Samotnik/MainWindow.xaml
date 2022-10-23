@@ -1,0 +1,87 @@
+﻿<Window x:Class="Project1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:Project1"
+        xmlns:local="clr-namespace:Project1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="600">
+    
+    <Window.Resources> 
+        <ControlTemplate x:Key = "ButtonTemplate" TargetType = "uc:Place">
+            <Ellipse x:Name = "ButtonEllipse" Height = "40" Width = "40" Fill="White"/>
+			
+            <ControlTemplate.Triggers>
+			         
+                <Trigger Property = "IsEnabled" Value = "True">
+                    <Setter TargetName = "ButtonEllipse" Property = "Fill" >
+                        <Setter.Value>
+                            <SolidColorBrush Color="Black"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+				        
+                <Trigger Property = "Tag" Value = "Selected">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonEllipse" Storyboard.TargetProperty="Fill.Color" To="Aqua" Duration="0:0:0.5"></ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+                
+                <Trigger Property="Tag" Value = "Empty">
+                    <Setter TargetName = "ButtonEllipse" Property = "Fill" >
+                        <Setter.Value>
+                            <SolidColorBrush Color="Beige"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                
+                <Trigger Property="Tag" Value = "Taken">
+                    <Setter TargetName = "ButtonEllipse" Property = "Fill" >
+                        <Setter.Value>
+                            <SolidColorBrush Color="Black"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                
+                <Trigger Property="Tag" Value = "Available">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonEllipse" Storyboard.TargetProperty="Fill.Color" To="LightGreen" Duration="0:0:0.5"></ColorAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+				        
+            </ControlTemplate.Triggers>
+			
+        </ControlTemplate> 
+    </Window.Resources> 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="600"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="175"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="175"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Click="RestartNoChoosingBoard" FontSize="25">Restart</Button>
+            <Button Grid.Column="3" Click="RestartChoosingBoard" FontSize="25">Choose Board</Button>
+        </Grid>
+        <Grid Grid.Row="1" Name="fieldPlane">
+            
+        </Grid>
+    </Grid>
+    
+
+</Window>

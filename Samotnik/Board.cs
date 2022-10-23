@@ -12,10 +12,10 @@ public class Board
 
     private static Pawn nullPawn = new Pawn();
     
-    public Board(int size, BoardType boardType)
+    public Board(int size)
     {
         Coords.SetSize(size);
-        InitPlaces(boardType);
+        InitPlaces();
     }
 
     public static Pawn SelectedPawn => selectedPawn;
@@ -34,42 +34,63 @@ public class Board
         pawns.Remove(pawn);
     }
 
-    private void InitPlaces(BoardType boardType)
+    private void InitPlaces()
     {
         pawns = new List<Pawn>();
         places = new List<Place>();
         int size = Coords.GetSize();
         int notFields = (size + 1) / 4;
         ;
-        if (boardType == BoardType.ENGLISH)
+        // if (boardType == BoardType.ENGLISH)
+        // {
+        //     for (int i = 0; i < size; i++)
+        //     {
+        //         for (int j = 0; j < size; j++)
+        //         {
+        //             Place place = new Place(new Coords(i, j));
+        //             if ((i < notFields && j < notFields)
+        //                 || (i >= size - notFields && j >= size - notFields)
+        //                 || (i < notFields && j >= size - notFields)
+        //                 || (i >= size - notFields && j < notFields))
+        //             {
+        //                 place.SetNotAField();
+        //                 places.Add(place);
+        //                 continue;
+        //             }
+        //
+        //             if (i == j && i == size / 2)
+        //             {
+        //                 place.SetFree();
+        //                 places.Add(place);
+        //                 continue;
+        //             }
+        //
+        //             Pawn pawn = new Pawn(place);
+        //             
+        //             places.Add(place);
+        //             pawns.Add(pawn);
+        //         }
+        //     }
+        // }
+
+        for (int i = 0; i < size; i++)
         {
-            for (int i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
             {
-                for (int j = 0; j < size; j++)
+                Place place = new Place(new Coords(i, j));
+                if (MainWindow.boardtemplate[i, j] == -1)
                 {
-                    Place place = new Place(new Coords(i, j));
-                    if ((i < notFields && j < notFields)
-                        || (i >= size - notFields && j >= size - notFields)
-                        || (i < notFields && j >= size - notFields)
-                        || (i >= size - notFields && j < notFields))
-                    {
-                        place.SetNotAField();
-                        places.Add(place);
-                        continue;
-                    }
-
-                    if (i == j && i == size / 2)
-                    {
-                        place.SetFree();
-                        places.Add(place);
-                        continue;
-                    }
-
+                    place.SetNotAField();
+                } else if (MainWindow.boardtemplate[i, j] == 0)
+                {
+                    place.SetFree();
+                }
+                else
+                {
                     Pawn pawn = new Pawn(place);
-                    
-                    places.Add(place);
                     pawns.Add(pawn);
                 }
+                places.Add(place);
             }
         }
 
