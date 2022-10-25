@@ -6,14 +6,15 @@ namespace Procesy;
 public class ThreadInfo
 {
     public int id { get; }
-    public DateTime? processorTime { get;}
+    public ThreadState? processorTime { get;}
 
     public ThreadInfo(ProcessThread thread)
     {
         id = thread.Id;
         try
         {
-            processorTime = thread.StartTime;
+            //processorTime = thread.StartTime;
+            processorTime = thread.ThreadState;
         }
         catch (Exception e)
         {

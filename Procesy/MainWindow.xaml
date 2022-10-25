@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Procesy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="500">
+        Title="MainWindow" Height="790" Width="500" ResizeMode="NoResize">
     
     <Window.DataContext>
         <local:ViewModel/>
@@ -34,7 +34,10 @@
                 <ColumnDefinition Width="50"></ColumnDefinition>
                 <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition Width="245"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="35"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition Width="75"></ColumnDefinition>
                 <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition Width="50"></ColumnDefinition>
@@ -43,9 +46,12 @@
             
             <Button Grid.Row="1" Grid.Column="1" Background="Aquamarine" Click="TriggerRefresh">NOW</Button>
             <Button Grid.Row="1" Grid.Column="3" Background="CornflowerBlue" Click="ToggleBlockRefresh">BLOCK</Button>
-            <Label Grid.Row="1" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White">Refresh Settings</Label>
-            <TextBox Grid.Row="1" Grid.Column="5" Background="BlueViolet" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5,0,5,0" >Hz</TextBox>
-            <Button Grid.Row="1" Grid.Column="7" Background="Violet" Click="TrggerAutoRefresh">AUTO</Button>
+            <!-- <Label Grid.Row="1" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White">Refresh Settings</Label> -->
+            
+            <TextBox Grid.Row="1" Name="FilterText" Grid.Column="5"></TextBox>
+            <Button Grid.Row="1" Name="NFilter" Grid.Column="6" Click="FilterProcesses">filter</Button>
+            <TextBox Grid.Row="1" Grid.Column="8" Background="BlueViolet" Name="RefreshRate" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5,0,5,0">10</TextBox>
+            <Button Grid.Row="1" Grid.Column="10" Background="Violet" Click="TrggerAutoRefresh">AUTO</Button>
         </Grid>
         
         <ListBox Grid.Row="1" 
@@ -53,7 +59,8 @@
                  ItemsSource="{Binding ProcessesList}"
                  VerticalAlignment="Top"
                  HorizontalContentAlignment="Center"
-                 SelectionChanged="SelectProcess">
+                 SelectionChanged="SelectProcess"
+                 Name="ListBox">
             <ListBox.Template>
                 <ControlTemplate>
                     <DockPanel LastChildFill="True" Background="LightGray">
@@ -64,9 +71,32 @@
                                 <ColumnDefinition Width="100"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
             
-                            <Label Grid.Column="0" Background="Aquamarine">ID</Label>
-                            <Label Grid.Column="1" Background="CornflowerBlue">NAME</Label>
-                            <Label Grid.Column="2" Background="BlueViolet">PRIORITY</Label>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="20"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Background="Aquamarine">ID</Label>
+                                <Button Name="IdSort" Grid.Column="1"></Button>
+                            </Grid>
+                            
+                            <Grid Grid.Column="1" Background="CornflowerBlue">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="20"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0">NAME</Label>
+                                <Button Name="NSort" Grid.Column="3"></Button>
+                            </Grid>
+                            
+                            <Grid Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="20"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Background="BlueViolet">PRIORITY</Label>
+                                <Button Name="PSort" Grid.Column="1"></Button>
+                            </Grid>
                         </Grid>
                         <ScrollViewer>
                             <ItemsPresenter />
@@ -99,38 +129,51 @@
                 <ColumnDefinition Width="225"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
-            <ListBox Grid.Column="0" ItemsSource="{Binding SelectedDetail}">
-                <ListBox.Template>
-                    <ControlTemplate>
-                        <DockPanel LastChildFill="True" Background="Aquamarine">
-                            <Grid DockPanel.Dock="Top" Height="25" >
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <ListBox Grid.Row="0" ItemsSource="{Binding SelectedDetail}">
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="True" Background="Aquamarine">
+                                <Grid DockPanel.Dock="Top" Height="25" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="125" ></ColumnDefinition>
+                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+            
+                                    <Label Grid.Column="0" Background="Aqua">PROPERTY</Label>
+                                    <Label Grid.Column="1" Background="CornflowerBlue">VALUE</Label>
+                                </Grid>
+                                <ItemsPresenter />
+                            </DockPanel>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="125" ></ColumnDefinition>
                                     <ColumnDefinition Width="150"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
             
-                                <Label Grid.Column="0" Background="Aqua">PROPERTY</Label>
-                                <Label Grid.Column="1" Background="CornflowerBlue">VALUE</Label>
+                                <TextBlock Grid.Column="0" Text="{Binding key}"></TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding value}"></TextBlock>
                             </Grid>
-                            <ItemsPresenter />
-                        </DockPanel>
-                    </ControlTemplate>
-                </ListBox.Template>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="125" ></ColumnDefinition>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-            
-                            <TextBlock Grid.Column="0" Text="{Binding key}"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding value}"></TextBlock>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 
-            </ListBox>
+                </ListBox>
+                
+                <Button Grid.Row="1" Background="Black" FontWeight="Heavy" Foreground="Firebrick" FontSize="25" VerticalContentAlignment="Top" Click="KillProcess">KILL</Button>
+                
+            </Grid>
+            
+            
+            
             
             
             
@@ -145,7 +188,7 @@
                                 </Grid.ColumnDefinitions>
             
                                 <Label Grid.Column="0" Background="Aqua">ID</Label>
-                                <Label Grid.Column="1" Background="CornflowerBlue">PROCESSOR TIME</Label>
+                                <Label Grid.Column="1" Background="CornflowerBlue">THREAD STATE</Label>
                             </Grid>
                             <ScrollViewer>
                                 <ItemsPresenter />
