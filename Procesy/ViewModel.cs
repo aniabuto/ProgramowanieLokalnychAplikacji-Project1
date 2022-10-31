@@ -19,32 +19,28 @@ public class ViewModel
         SelectedProcess = null;
     }
 
-    private void ReloadProcesses(object? sender, EventArgs e)
-    {
-        RefreshProcesses();
-    }
-
-
     public void RefreshProcesses()
     {
-        var ids = ProcessesList.Select(process => process.id).ToList();
-        
+        ProcessesList.Clear();
         foreach (var process in Process.GetProcesses())
         {
-            if (!ids.Remove(process.Id))
-            {
-                ProcessesList.Add(new SingleProcess(process));
-            }
-        }
-
-        foreach (var id in ids)
-        {
-            var leftoverProcess = ProcessesList.First(process => process.id == id);
-            ProcessesList.Remove(leftoverProcess);
+            ProcessesList.Add(new SingleProcess(process));
         }
 
         if(SelectedProcess != null)
             SelectProcess(SelectedProcess);
+        else
+        {
+            SelectedThreads.Clear();
+            SelectedDetail.Clear();
+        }
+    }
+
+    public void ClearSelected()
+    {
+        SelectedProcess = null;
+        SelectedThreads.Clear();
+        SelectedDetail.Clear();
     }
 
     public void SelectProcess(SingleProcess? singleProcess)
@@ -76,5 +72,34 @@ public class ViewModel
         if(SelectedProcess != null)
             SelectedProcess.KillProcess();
     }
-    
+
+    public void ChangeProcessPriority(string priority)
+    {
+        ProcessPriorityClass priorityClass;
+        switch (priority)
+        {
+            case "Idle":
+                priorityClass = ProcessPriorityClass.Idle;
+                break;
+            case "BelowNormal":
+                priorityClass = ProcessPriorityClass.BelowNormal;
+                break;
+            case "Normal":
+                priorityClass = ProcessPriorityClass.Normal;
+                break;
+            case "AboveNormal":
+                priorityClass = ProcessPriorityClass.AboveNormal;
+                break;
+            case "High":
+                priorityClass = ProcessPriorityClass.High;
+                break;
+            case "RealTime":
+                priorityClass = ProcessPriorityClass.RealTime;
+                break;
+            default:
+                return;
+        }
+        if(SelectedProcess != null)
+            SelectedProcess.ChangePriority(priorityClass);
+    }
 }

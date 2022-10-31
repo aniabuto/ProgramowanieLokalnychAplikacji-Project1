@@ -125,8 +125,15 @@ public class SingleProcess
 
     public void ChangePriority(ProcessPriorityClass newPriority)
     {
-        this.process.PriorityClass = newPriority;
-        this.priority = newPriority.ToString();
+        try
+        {
+            this.process.PriorityClass = newPriority;
+            this.priority = process.PriorityClass.ToString();
+        }
+        catch (Exception e)
+        {
+            
+        }
     }
 
     public void RefreshProcess()

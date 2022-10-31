@@ -5,11 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Procesy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="790" Width="500" ResizeMode="NoResize">
+        Title="Procesy" Height="790" Width="500" ResizeMode="NoResize">
     
     <Window.DataContext>
         <local:ViewModel/>
     </Window.DataContext>
+    
+    <Window.Resources>
+        <ContextMenu x:Key="priorityChange">
+            <MenuItem Click="ChangeProcessPriority" Header="Idle"></MenuItem>
+            <MenuItem Click="ChangeProcessPriority" Header="BelowNormal"></MenuItem>
+            <MenuItem Click="ChangeProcessPriority" Header="Normal"></MenuItem>
+            <MenuItem Click="ChangeProcessPriority" Header="AboveNormal"></MenuItem>
+            <MenuItem Click="ChangeProcessPriority" Header="High"></MenuItem>
+            <MenuItem Click="ChangeProcessPriority" Header="RealTime"></MenuItem>
+        </ContextMenu>
+    </Window.Resources>
     
     
     <Grid>
@@ -21,8 +32,6 @@
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0">
-            <!-- Grid for Header Cells -->
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="5"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
@@ -37,89 +46,43 @@
                 <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="35"></ColumnDefinition>
-                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="8"></ColumnDefinition>
                 <ColumnDefinition Width="75"></ColumnDefinition>
-                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="2"></ColumnDefinition>
                 <ColumnDefinition Width="50"></ColumnDefinition>
                 <ColumnDefinition Width="10"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
-            <Button Grid.Row="1" Grid.Column="1" Background="Aquamarine" Click="TriggerRefresh">NOW</Button>
-            <Button Grid.Row="1" Grid.Column="3" Background="CornflowerBlue" Click="ToggleBlockRefresh">BLOCK</Button>
-            <!-- <Label Grid.Row="1" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White">Refresh Settings</Label> -->
+            <Button Grid.Row="1" Grid.Column="1" Click="TriggerRefresh">NOW</Button>
+            <Button Grid.Row="1" Grid.Column="3" Click="ToggleBlockRefresh">BLOCK</Button>
             
             <TextBox Grid.Row="1" Name="FilterText" Grid.Column="5"></TextBox>
             <Button Grid.Row="1" Name="NFilter" Grid.Column="6" Click="FilterProcesses">filter</Button>
-            <TextBox Grid.Row="1" Grid.Column="8" Background="BlueViolet" Name="RefreshRate" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5,0,5,0">10</TextBox>
-            <Button Grid.Row="1" Grid.Column="10" Background="Violet" Click="TrggerAutoRefresh">AUTO</Button>
+            <TextBox Grid.Row="1" Grid.Column="8" Name="RefreshRate" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="5,0,5,0">10</TextBox>
+            <Button Grid.Row="1" Grid.Column="10" Click="TrggerAutoRefresh">AUTO</Button>
         </Grid>
         
-        <ListBox Grid.Row="1" 
-                 Background="SlateGray" 
-                 ItemsSource="{Binding ProcessesList}"
-                 VerticalAlignment="Top"
-                 HorizontalContentAlignment="Center"
-                 SelectionChanged="SelectProcess"
-                 Name="ListBox">
-            <ListBox.Template>
-                <ControlTemplate>
-                    <DockPanel LastChildFill="True" Background="LightGray">
-                        <Grid DockPanel.Dock="Top" Height="30" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75" ></ColumnDefinition>
-                                <ColumnDefinition Width="300"></ColumnDefinition>
-                                <ColumnDefinition Width="100"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-            
-                            <Grid Grid.Column="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition Width="20"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Background="Aquamarine">ID</Label>
-                                <Button Name="IdSort" Grid.Column="1"></Button>
-                            </Grid>
-                            
-                            <Grid Grid.Column="1" Background="CornflowerBlue">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition Width="20"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0">NAME</Label>
-                                <Button Name="NSort" Grid.Column="3"></Button>
-                            </Grid>
-                            
-                            <Grid Grid.Column="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition Width="20"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Background="BlueViolet">PRIORITY</Label>
-                                <Button Name="PSort" Grid.Column="1"></Button>
-                            </Grid>
-                        </Grid>
-                        <ScrollViewer>
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </DockPanel>
-                </ControlTemplate>
-            </ListBox.Template>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="75" ></ColumnDefinition>
-                            <ColumnDefinition Width="300"></ColumnDefinition>
-                            <ColumnDefinition Width="100"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-            
-                        <TextBlock Grid.Column="0" Text="{Binding id}"></TextBlock>
-                        <TextBlock Grid.Column="1" Text="{Binding name}"></TextBlock>
-                        <TextBlock Grid.Column="2" Text="{Binding priority}"></TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ListView Grid.Row="1"
+                  Background="SlateGray"
+                  ItemsSource="{Binding ProcessesList}"
+                  VerticalAlignment="Top"
+                  HorizontalContentAlignment="Center"
+                  SelectionChanged="SelectProcess"
+                  Name="ListBox">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding id}">
+                        <GridViewColumnHeader Tag="id" Click="Sort">ID</GridViewColumnHeader>
+                    </GridViewColumn>
+                    <GridViewColumn Width="300" DisplayMemberBinding="{Binding name}">
+                        <GridViewColumnHeader Tag="name" Click="Sort">NAME</GridViewColumnHeader>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding priority}">
+                        <GridViewColumnHeader Tag="priority" Click="Sort">PRIORITY</GridViewColumnHeader>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
         
         <Rectangle Grid.Row="2" Fill="Black"></Rectangle>
         
@@ -135,24 +98,24 @@
                     <RowDefinition Height="40"></RowDefinition>
                 </Grid.RowDefinitions>
                 
-                <ListBox Grid.Row="0" ItemsSource="{Binding SelectedDetail}">
-                    <ListBox.Template>
+                <ListView Grid.Row="0" ItemsSource="{Binding SelectedDetail}">
+                    <ListView.Template>
                         <ControlTemplate>
-                            <DockPanel LastChildFill="True" Background="Aquamarine">
+                            <DockPanel LastChildFill="True" Background="LightBlue">
                                 <Grid DockPanel.Dock="Top" Height="25" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="125" ></ColumnDefinition>
                                         <ColumnDefinition Width="150"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
             
-                                    <Label Grid.Column="0" Background="Aqua">PROPERTY</Label>
-                                    <Label Grid.Column="1" Background="CornflowerBlue">VALUE</Label>
+                                    <Label Grid.Column="0" Background="LightGray">PROPERTY</Label>
+                                    <Label Grid.Column="1" Background="LightGray">VALUE</Label>
                                 </Grid>
                                 <ItemsPresenter />
                             </DockPanel>
                         </ControlTemplate>
-                    </ListBox.Template>
-                    <ListBox.ItemTemplate>
+                    </ListView.Template>
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -164,39 +127,41 @@
                                 <TextBlock Grid.Column="1" Text="{Binding value}"></TextBlock>
                             </Grid>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
+                    </ListView.ItemTemplate>
                 
-                </ListBox>
+                </ListView>
                 
-                <Button Grid.Row="1" Background="Black" FontWeight="Heavy" Foreground="Firebrick" FontSize="25" VerticalContentAlignment="Top" Click="KillProcess">KILL</Button>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                 
+                    <Button Grid.Column="0" Background="DimGray" FontWeight="Heavy" Foreground="WhiteSmoke" FontSize="25" VerticalContentAlignment="Top" Click="KillProcess">KILL</Button>
+                    <Button Grid.Column="1" Background="DimGray" FontWeight="Heavy" Foreground="GhostWhite" FontSize="25" VerticalContentAlignment="Top" Click="ChangePriority">PRIORITY</Button>
+                </Grid>
             </Grid>
             
-            
-            
-            
-            
-            
-            <ListBox Grid.Column="1" ItemsSource="{Binding SelectedThreads}">
-                <ListBox.Template>
+            <ListView Grid.Column="1" ItemsSource="{Binding SelectedThreads}">
+                <ListView.Template>
                     <ControlTemplate>
-                        <DockPanel LastChildFill="True" Background="Aquamarine">
+                        <DockPanel LastChildFill="True" Background="LightGray">
                             <Grid DockPanel.Dock="Top" Height="25" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50" ></ColumnDefinition>
                                     <ColumnDefinition Width="175"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
             
-                                <Label Grid.Column="0" Background="Aqua">ID</Label>
-                                <Label Grid.Column="1" Background="CornflowerBlue">THREAD STATE</Label>
+                                <Label Grid.Column="0" Background="LightBlue">ID</Label>
+                                <Label Grid.Column="1" Background="LightBlue">THREAD STATE</Label>
                             </Grid>
                             <ScrollViewer>
                                 <ItemsPresenter />
                             </ScrollViewer>
                         </DockPanel>
                     </ControlTemplate>
-                </ListBox.Template>
-                <ListBox.ItemTemplate>
+                </ListView.Template>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -208,9 +173,9 @@
                             <TextBlock Grid.Column="1" Text="{Binding processorTime}"></TextBlock>
                         </Grid>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
+                </ListView.ItemTemplate>
                 
-            </ListBox>
+            </ListView>
         </Grid>
         
         

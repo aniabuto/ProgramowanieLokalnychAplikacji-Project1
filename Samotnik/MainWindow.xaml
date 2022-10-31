@@ -6,7 +6,7 @@
         xmlns:uc="clr-namespace:Project1"
         xmlns:local="clr-namespace:Project1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="600">
+        Title="Samotnik" Height="650" Width="600">
     
     <Window.Resources> 
         <ControlTemplate x:Key = "ButtonTemplate" TargetType = "uc:Place">
