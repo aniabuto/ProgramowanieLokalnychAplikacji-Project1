@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Procesy;
@@ -14,9 +20,34 @@ public class ViewModel
 
     public SingleProcess? SelectedProcess { get; set; }
 
+    private string filterText = "";
+    
+    private GridViewColumnHeader sortedColumn = null;
+    private SortAdorner sortAdorner = null;
+
     public ViewModel()
     {
         SelectedProcess = null;
+        
+        CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ProcessesList);
+        collectionView.Filter = MyFilter;
+    }
+
+    public void ChangeFilterText(string newText)
+    {
+        ClearSelected();
+        filterText = newText;
+        CollectionViewSource.GetDefaultView(ProcessesList).Refresh();
+    }
+
+    private bool MyFilter(object obj)
+    {
+        if (String.IsNullOrEmpty(filterText))
+            return true;
+        else
+        {
+            return ((obj as SingleProcess).name.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
     }
 
     public void RefreshProcesses()
@@ -101,5 +132,66 @@ public class ViewModel
         }
         if(SelectedProcess != null)
             SelectedProcess.ChangePriority(priorityClass);
+    }
+
+
+    public void Sort(ItemCollection items, GridViewColumnHeader column)
+    {
+        if (sortedColumn != null)
+        {
+            AdornerLayer.GetAdornerLayer(sortedColumn).Remove(sortAdorner);
+            items.SortDescriptions.Clear();
+        }
+
+        ListSortDirection newDirection = ListSortDirection.Ascending;
+        if (sortedColumn == column && sortAdorner.Direction == newDirection)
+            newDirection = ListSortDirection.Descending;
+
+        sortedColumn = column;
+        sortAdorner = new SortAdorner(sortedColumn, newDirection);
+        AdornerLayer.GetAdornerLayer(sortedColumn).Add(sortAdorner);
+        items.SortDescriptions.Add(new SortDescription(column.Tag.ToString(), newDirection));
+            
+        CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ProcessesList);
+        collectionView.SortDescriptions.Add(new SortDescription("name", ListSortDirection.Ascending));
+    }
+    
+    public class SortAdorner : Adorner
+    {
+        private static Geometry ascGeometry =
+            Geometry.Parse("M 0 4 L 3.5 0 L 7 4 Z");
+
+        private static Geometry descGeometry =
+            Geometry.Parse("M 0 0 L 3.5 4 L 7 0 Z");
+
+        public ListSortDirection Direction { get; private set; }
+
+        public SortAdorner(UIElement element, ListSortDirection dir)
+            : base(element)
+        {
+            this.Direction = dir;
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            if(AdornedElement.RenderSize.Width < 20)
+                return;
+
+            TranslateTransform transform = new TranslateTransform
+            (
+                AdornedElement.RenderSize.Width - 15,
+                (AdornedElement.RenderSize.Height - 5) / 2
+            );
+            drawingContext.PushTransform(transform);
+
+            Geometry geometry = ascGeometry;
+            if(this.Direction == ListSortDirection.Descending)
+                geometry = descGeometry;
+            drawingContext.DrawGeometry(Brushes.Navy, null, geometry);
+
+            drawingContext.Pop();
+        }
     }
 }

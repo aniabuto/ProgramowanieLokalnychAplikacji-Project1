@@ -13,7 +13,6 @@ public class ThreadInfo
         id = thread.Id;
         try
         {
-            //processorTime = thread.StartTime;
             processorTime = thread.ThreadState;
         }
         catch (Exception e)

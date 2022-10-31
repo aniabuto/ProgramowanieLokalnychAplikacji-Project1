@@ -17,15 +17,10 @@ using System.Windows.Threading;
 
 namespace Procesy
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         bool canRefresh = true;
         private double refreshRate = 10;
-        private GridViewColumnHeader sortedColumn = null;
-        private SortAdorner sortAdorner = null;
         
         public MainWindow()
         {
@@ -37,20 +32,6 @@ namespace Procesy
             
             var viewModel = (ViewModel)DataContext;
             viewModel.RefreshProcesses();
-            
-            // creating filter
-            CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListBox.ItemsSource);
-            collectionView.Filter = MyFilter;
-        }
-
-        private bool MyFilter(object obj)
-        {
-            if (String.IsNullOrEmpty(FilterText.Text))
-                return true;
-            else
-            {
-                return ((obj as SingleProcess).name.IndexOf(FilterText.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
         }
 
         private void ReloadProcesses(object? sender, EventArgs e)
@@ -77,7 +58,7 @@ namespace Procesy
                 (sender as Button).Background = new SolidColorBrush(Colors.LightGray);
         }
 
-        private void TrggerAutoRefresh(object sender, RoutedEventArgs e)
+        private void TriggerAutoRefresh(object sender, RoutedEventArgs e)
         {
             var viewModel = (ViewModel)DataContext;
             viewModel.ClearSelected();
@@ -103,8 +84,7 @@ namespace Procesy
         private void FilterProcesses(object sender, RoutedEventArgs e)
         {
             var viewModel = (ViewModel)DataContext;
-            viewModel.ClearSelected();
-            CollectionViewSource.GetDefaultView(ListBox.ItemsSource).Refresh();
+            viewModel.ChangeFilterText(FilterText.Text);
         }
 
         private void KillProcess(object sender, RoutedEventArgs e)
@@ -130,62 +110,8 @@ namespace Procesy
         private void Sort(object sender, RoutedEventArgs e)
         {
             GridViewColumnHeader column = sender as GridViewColumnHeader;
-            if (sortedColumn != null)
-            {
-                AdornerLayer.GetAdornerLayer(sortedColumn).Remove(sortAdorner);
-                ListBox.Items.SortDescriptions.Clear();
-            }
-
-            ListSortDirection newDirection = ListSortDirection.Ascending;
-            if (sortedColumn == column && sortAdorner.Direction == newDirection)
-                newDirection = ListSortDirection.Descending;
-
-            sortedColumn = column;
-            sortAdorner = new SortAdorner(sortedColumn, newDirection);
-            AdornerLayer.GetAdornerLayer(sortedColumn).Add(sortAdorner);
-            ListBox.Items.SortDescriptions.Add(new SortDescription(column.Tag.ToString(), newDirection));
-            
-            CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ListBox.ItemsSource);
-            collectionView.SortDescriptions.Add(new SortDescription("name", ListSortDirection.Ascending));
-        }
-    }
-    
-    public class SortAdorner : Adorner
-    {
-        private static Geometry ascGeometry =
-            Geometry.Parse("M 0 4 L 3.5 0 L 7 4 Z");
-
-        private static Geometry descGeometry =
-            Geometry.Parse("M 0 0 L 3.5 4 L 7 0 Z");
-
-        public ListSortDirection Direction { get; private set; }
-
-        public SortAdorner(UIElement element, ListSortDirection dir)
-            : base(element)
-        {
-            this.Direction = dir;
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-
-            if(AdornedElement.RenderSize.Width < 20)
-                return;
-
-            TranslateTransform transform = new TranslateTransform
-            (
-                AdornedElement.RenderSize.Width - 15,
-                (AdornedElement.RenderSize.Height - 5) / 2
-            );
-            drawingContext.PushTransform(transform);
-
-            Geometry geometry = ascGeometry;
-            if(this.Direction == ListSortDirection.Descending)
-                geometry = descGeometry;
-            drawingContext.DrawGeometry(Brushes.Navy, null, geometry);
-
-            drawingContext.Pop();
+            var viewModel = (ViewModel)DataContext;
+            viewModel.Sort(ListBox.Items, column);
         }
     }
 }
