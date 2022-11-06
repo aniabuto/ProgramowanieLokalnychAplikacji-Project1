@@ -2,13 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace Procesy;
 
@@ -87,15 +83,14 @@ public class ViewModel
         }
         
         SelectedDetail.Add(new ProcessDetail("Process Name", SelectedProcess.name));
-        SelectedDetail.Add(new ProcessDetail("Memory usage", SelectedProcess.memory.ToString()));
+        SelectedDetail.Add(new ProcessDetail("Memory usage", SelectedProcess.memory));
         SelectedDetail.Add(new ProcessDetail("Main Window Title", SelectedProcess.mainWindowTitle));
         SelectedDetail.Add(new ProcessDetail("Start Time", SelectedProcess.startTime));
-        SelectedDetail.Add(new ProcessDetail("Session ID", SelectedProcess.sessionId.ToString()));
+        SelectedDetail.Add(new ProcessDetail("Session ID", SelectedProcess.sessionId));
         SelectedDetail.Add(new ProcessDetail("Main Module Name", SelectedProcess.mainModuleName ?? ""));
-        SelectedDetail.Add(new ProcessDetail("Base Priority", SelectedProcess.basePriority.ToString()));
-        SelectedDetail.Add(new ProcessDetail("Responding", SelectedProcess.responding.ToString()));
+        SelectedDetail.Add(new ProcessDetail("Base Priority", SelectedProcess.basePriority));
+        SelectedDetail.Add(new ProcessDetail("Responding", SelectedProcess.responding));
         SelectedDetail.Add(new ProcessDetail("Number of Threads", SelectedProcess.threads.Count.ToString()));
-        
     }
 
     public void KillProcess()
@@ -133,8 +128,7 @@ public class ViewModel
         if(SelectedProcess != null)
             SelectedProcess.ChangePriority(priorityClass);
     }
-
-
+    
     public void Sort(ItemCollection items, GridViewColumnHeader column)
     {
         if (sortedColumn != null)
@@ -154,44 +148,5 @@ public class ViewModel
             
         CollectionView collectionView = (CollectionView)CollectionViewSource.GetDefaultView(ProcessesList);
         collectionView.SortDescriptions.Add(new SortDescription("name", ListSortDirection.Ascending));
-    }
-    
-    public class SortAdorner : Adorner
-    {
-        private static Geometry ascGeometry =
-            Geometry.Parse("M 0 4 L 3.5 0 L 7 4 Z");
-
-        private static Geometry descGeometry =
-            Geometry.Parse("M 0 0 L 3.5 4 L 7 0 Z");
-
-        public ListSortDirection Direction { get; private set; }
-
-        public SortAdorner(UIElement element, ListSortDirection dir)
-            : base(element)
-        {
-            this.Direction = dir;
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-
-            if(AdornedElement.RenderSize.Width < 20)
-                return;
-
-            TranslateTransform transform = new TranslateTransform
-            (
-                AdornedElement.RenderSize.Width - 15,
-                (AdornedElement.RenderSize.Height - 5) / 2
-            );
-            drawingContext.PushTransform(transform);
-
-            Geometry geometry = ascGeometry;
-            if(this.Direction == ListSortDirection.Descending)
-                geometry = descGeometry;
-            drawingContext.DrawGeometry(Brushes.Navy, null, geometry);
-
-            drawingContext.Pop();
-        }
     }
 }

@@ -6,8 +6,8 @@ namespace Procesy;
 public class ProcessDetail
 {
     
-    public string key { get; set; }
-    public string value { get; set; }
+    public string key { get; }
+    public string value { get; }
 
     public ProcessDetail(string key, string value)
     {

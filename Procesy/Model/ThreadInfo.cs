@@ -20,7 +20,5 @@ public class ThreadInfo
             processorTime = null;
             Console.WriteLine(e.Message);
         }
-
-        
     }
 }
